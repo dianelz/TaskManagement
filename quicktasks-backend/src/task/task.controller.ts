@@ -8,6 +8,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
+import { TaskStatus } from '@prisma/client';
 
 @Controller('tasks') // Assurez-vous que le chemin est bien "tasks"
 export class TaskController {
@@ -19,16 +20,24 @@ export class TaskController {
   }
 
   @Post()
-  create(@Body() body: { title: string; userId: number }) {
-    return this.taskService.create(body);
+  createTask(@Body() body: { title: string; userId: number }) {
+    return this.taskService.createTask(body);
   }
 
   @Patch(':id')
-  update(
+  updateTask(
     @Param('id') id: string,
     @Body() body: { title?: string; completed?: boolean },
   ) {
-    return this.taskService.update(Number(id), body);
+    return this.taskService.updateTask(Number(id), body);
+  }
+
+  @Patch(':id/status')
+  updateTaskStatus(
+    @Param('id') id: string,
+    @Body() data: { status: TaskStatus },
+  ) {
+    return this.taskService.updateTaskStatus(+id, data.status);
   }
 
   @Delete(':id')
