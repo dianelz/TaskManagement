@@ -1,0 +1,3 @@
+[submodule "quicktasks-backend"]
+	path = quicktasks-backend
+	url = https://gitlab.com/dianeelza/quicktasks-backend.git
