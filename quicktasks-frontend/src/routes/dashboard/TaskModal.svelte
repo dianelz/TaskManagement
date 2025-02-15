@@ -6,11 +6,42 @@
   export let selectedTask: Task | null;
   export let onSave: (task: Task) => void; // Fonction passée en prop
 
-  function saveChanges() {
+  async function saveChanges() {
+      
       if (selectedTask) {
-          onSave(selectedTask);
-          selectedTask = null; // Ferme la modale
+        const taskToSave = { ...selectedTask };
+        onSave(taskToSave);
+        console.log(taskToSave.title)
+        try {
+          const response = await fetch(`http://localhost:3000/tasks/${taskToSave.id}`, {
+              method: "PATCH",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                title: taskToSave.title,
+                description: taskToSave.description,
+                dueDate: taskToSave.dueDate
+              }), 
+            });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Erreur API: ${errorText}`);
+        }
+
+        console.log(response)
+        const updatedTask = await response.json();
+        
+        console.log(`✅ Mise à jour réussie en BDD:`, updatedTask);
+
+        // Mettre à jour localement si nécessaire (si `tasks` est un store Svelte)
+        } catch (error) {
+          console.error(`🚨 Erreur lors de la mise à jour de la tâche:`, error);
+        }
+      selectedTask = null; // Ferme la modale
       }
+
   }
 </script>
 

@@ -14,8 +14,8 @@
         tasks = tasks.map(task =>
             task.id === updatedTask.id ? updatedTask : task
         );
-    }
         selectedTask = null; // Ferme la modale après mise à jour
+    }
 </script>
 
 <!-- Kanban Board -->
@@ -25,7 +25,11 @@
             {status} 
             tasks={tasks.filter((task: Task) => task.status === status)} 
             {handleDrop} 
-            on:editTask={(event) => selectedTask = event.detail} 
+            on:editTask={(event) => {
+            // Quand on reçoit l’événement "editTask", on ouvre la modale
+            console.log("Événement editTask reçu !", event.detail);
+            selectedTask = event.detail;
+      }}
         />
     {/each}
 </div>

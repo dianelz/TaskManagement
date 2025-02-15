@@ -24,13 +24,21 @@ export class TaskController {
     return this.taskService.createTask(body);
   }
 
-  @Patch(':id')
+  @Patch(':id/status')
   updateTaskStatus(
     @Param('id') id: string,
     @Body() data: { status: TaskStatus },
   ) {
     console.log('📥 Requête reçue :', { id, data });
     return this.taskService.updateTaskStatus(+id, data.status);
+  }
+
+  @Patch(':id')
+  updateTask(
+    @Param('id') id: string,
+    @Body() data: { title?: string; description?: string; dueDate?: Date },
+  ) {
+    return this.taskService.updateTask(+id, data);
   }
 
   @Delete(':id')
