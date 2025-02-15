@@ -25,18 +25,11 @@ export class TaskController {
   }
 
   @Patch(':id')
-  updateTask(
-    @Param('id') id: string,
-    @Body() body: { title?: string; completed?: boolean },
-  ) {
-    return this.taskService.updateTask(Number(id), body);
-  }
-
-  @Patch(':id/status')
   updateTaskStatus(
     @Param('id') id: string,
     @Body() data: { status: TaskStatus },
   ) {
+    console.log('📥 Requête reçue :', { id, data });
     return this.taskService.updateTaskStatus(+id, data.status);
   }
 

@@ -11,11 +11,8 @@
       const taskId = event.dataTransfer?.getData('taskId');
   
       if (!taskId) {
-        console.log("⚠️ Aucune tâche ID récupérée !");
         return;
       }
-  
-      console.log(`📦 Tâche déposée: ${taskId} dans la colonne ${status}`);
       handleDrop(Number(taskId), status);
     }
   </script>
@@ -25,9 +22,8 @@
     on:drop={onDrop}
     role="list"
   >
-    <h2 class="text-lg font-bold">{status}</h2>
+    <h2 class="text-lg font-bold">{status.replace("_"," ")}</h2>
     {#each tasks as task (task.id)}
-      <TaskCard {task} />
+      <TaskCard {task} onEdit={() => {}} />
     {/each}
   </div>
-  

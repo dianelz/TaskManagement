@@ -3,15 +3,10 @@
   import { onMount } from 'svelte';
   import KanbanBoard from '$lib/KanbanBoard.svelte';
   import type { Status, Task } from '$lib/types';
+  
 
-// ✅ Tâches initiales
- let tasks: Task[] = [
-  { id: 1, title: 'Tâche 1', description: 'Description 1', status: 'TODO', dueDate: '2025-02-10' },
-  { id: 2, title: 'Tâche 2', description: 'Description 2', status: 'IN PROGRESS' },
-  { id: 3, title: 'Tâche 3', description: 'Description 3', status: 'DONE' },
-];
-
-  let newTask = '';
+let tasks: Task[] = []; // Tableau local de tâches
+let newTask = '';
 
   async function fetchTasks() {
     const response = await fetch('http://localhost:3000/tasks');
@@ -29,12 +24,49 @@
   }
 
   
-  function handleDrop(taskId: number, newStatus: string) {
+  async function handleDrop(taskId: number, newStatus: string): Promise<void>{
     console.log(`🔄 Changement du statut de la tâche ${taskId} en ${newStatus}`);
-    tasks = tasks.map((task) =>
-      task.id === taskId ? { ...task, status: newStatus as Status } : task
-    );
-  }
+
+    // 🔥 Vérification et conversion du statut avant l'envoi
+    const statusMap: Record<string, string> = {
+        "TODO": "TODO",
+        "IN_PROGRESS": "IN_PROGRESS", // Correction ici
+        "DONE": "DONE",
+    };
+
+    const formattedStatus = statusMap[newStatus];
+
+    if (!formattedStatus) {
+        console.error(`🚨 Erreur: statut "${newStatus}" invalide`);
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ status: formattedStatus }), // On envoie la version correcte du statut
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Erreur API: ${errorText}`);
+        }
+
+        const updatedTask = await response.json();
+        console.log(`✅ Mise à jour réussie en BDD:`, updatedTask);
+
+        // Mettre à jour localement si nécessaire (si `tasks` est un store Svelte)
+        tasks = tasks.map((task) =>
+            task.id === taskId ? { ...task, status: updatedTask.status } : task
+        );
+
+    } catch (error) {
+        console.error(`🚨 Erreur lors de la mise à jour de la tâche:`, error);
+    }
+}
 
   onMount(fetchTasks);
 </script>

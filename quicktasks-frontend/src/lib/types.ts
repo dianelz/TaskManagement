@@ -1,5 +1,5 @@
 // ✅ Type des statuts autorisés
-export type Status = 'TODO' | 'IN PROGRESS' | 'DONE';
+export type Status = 'TODO' | 'IN_PROGRESS' | 'DONE';
 
 // ✅ Type des tâches
 export type Task = {
