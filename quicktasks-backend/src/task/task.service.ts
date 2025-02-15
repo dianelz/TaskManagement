@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { Task, TaskStatus } from '@prisma/client';
 
 @Injectable()
 export class TaskService {
@@ -9,21 +10,39 @@ export class TaskService {
     return await this.prisma.task.findMany();
   }
 
-  async create(data: { title: string; userId: number }) {
-    const user = await this.prisma.user.findUnique({
-      where: { id: data.userId },
+  async createTask(data: {
+    title: string;
+    description?: string;
+    dueDate?: Date;
+    userId: number;
+  }) {
+    return this.prisma.task.create({
+      data: {
+        title: data.title,
+        description: data.description,
+        dueDate: data.dueDate,
+        status: 'TODO',
+        user: {
+          connect: { id: data.userId }, // ✅ Liaison via la relation Prisma
+        },
+      },
     });
-
-    if (!user) {
-      throw new Error('User not found');
-    }
-    return await this.prisma.task.create({ data });
   }
 
-  async update(id: number, data: { title?: string; completed?: boolean }) {
-    return await this.prisma.task.update({
+  async updateTask(
+    id: number,
+    data: { title?: string; description?: string; dueDate?: Date },
+  ): Promise<Task> {
+    return this.prisma.task.update({
       where: { id },
       data,
+    });
+  }
+
+  async updateTaskStatus(id: number, status: TaskStatus): Promise<Task> {
+    return this.prisma.task.update({
+      where: { id },
+      data: { status },
     });
   }
 
