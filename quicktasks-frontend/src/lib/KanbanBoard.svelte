@@ -4,7 +4,8 @@
     import type { Task, Status } from '$lib/types';
 
     export let tasks: Task[];
-    export let handleDrop: (taskId: number, newStatus: string)=> Promise <void>;
+    export let handleDrop: (taskId: number, newStatus: string)=> Promise <void>; 
+    export let deleteTask: (TaskId:number)=>void;
 
 
     let selectedTask: Task | null = null;
@@ -25,11 +26,12 @@
             {status} 
             tasks={tasks.filter((task: Task) => task.status === status)} 
             {handleDrop} 
+            {deleteTask}
             on:editTask={(event) => {
             // Quand on reçoit l’événement "editTask", on ouvre la modale
             console.log("Événement editTask reçu !", event.detail);
             selectedTask = event.detail;
-      }}
+            }}
         />
     {/each}
 </div>
