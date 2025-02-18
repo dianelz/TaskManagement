@@ -66,7 +66,24 @@ let newTask = '';
     } catch (error) {
         console.error(`🚨 Erreur lors de la mise à jour de la tâche:`, error);
     }
+
 }
+
+  async function deleteTask(taskId: number) {
+    try {
+      const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
+      method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Erreur lors de la suppression de la tâche');
+      }
+
+      tasks = tasks.filter(t => t.id !== taskId);
+    } catch (error) {
+      console.error(`🚨 Impossible de supprimer la tâche :`, error);
+    }
+  }
 
   onMount(fetchTasks);
 </script>
@@ -81,7 +98,10 @@ let newTask = '';
   </button>
 </div>
 
-<KanbanBoard {tasks} {handleDrop} />
+<KanbanBoard {tasks} 
+  {handleDrop}
+  {deleteTask}
+/>
 
 <button on:click={() => {
   localStorage.removeItem('token');

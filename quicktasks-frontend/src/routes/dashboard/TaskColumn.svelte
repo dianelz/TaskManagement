@@ -6,12 +6,15 @@
     export let status: Status;
     export let tasks: Task[];
     export let handleDrop: (taskId: number, newStatus: Status) => void;
+    export let deleteTask: (taskId: number) => void; // passé en prop
+
     
     const dispatch = createEventDispatcher();
 
     function onDrop(event: DragEvent) {
       event.preventDefault();
       const taskId = event.dataTransfer?.getData('taskId');
+
   
       if (!taskId) {
         return;
@@ -22,6 +25,7 @@
     function forwardEditTask(event :any) {
         dispatch('editTask', event.detail);
     }
+
   </script>
   
   <div class="kanban-column"
@@ -31,6 +35,9 @@
   >
     <h2 class="text-lg font-bold">{status.replace("_"," ")}</h2>
     {#each tasks as task (task.id)}
-      <TaskCard {task} on:editTask={forwardEditTask} />
+      <TaskCard {task} 
+      on:editTask={forwardEditTask}
+      on:deleteTask={(event) => deleteTask(event.detail)}
+      />
     {/each}
   </div>
