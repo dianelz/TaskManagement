@@ -17,7 +17,7 @@
         console.log(task)
         dispatch('deleteTask',task.id)
     }
-
+    
 </script>
   
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -48,7 +48,7 @@
     <p class="text-gray-600">{task.description}</p>
   {/if}
   {#if task.dueDate}
-    <p class="text-sm text-red-500">Échéance : {task.dueDate}</p>
+    <p class="text-sm text-red-500">Échéance : {new Date(task.dueDate).toLocaleDateString()}</p>
   {/if}
 </div>
 
