@@ -27,7 +27,7 @@ model Task {
   description String?
   completed Boolean  @default(false)
   status      TaskStatus   @default(TODO) // Statuts : todo, in_progress, done
-  dueDate     DateTime?
+  dueDate     DateTime? @db.Date
   createdAt   DateTime @default(now())
   updatedAt   DateTime? @updatedAt
   userId    Int

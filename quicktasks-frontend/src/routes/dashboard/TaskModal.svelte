@@ -9,9 +9,9 @@
   async function saveChanges() {
       
       if (selectedTask) {
-        const taskToSave = { ...selectedTask };
+        const taskToSave = { ...selectedTask }; //copy to avoid null value of modal 
         onSave(taskToSave);
-        console.log(taskToSave.title)
+        console.log(taskToSave.dueDate)
         try {
           const response = await fetch(`http://localhost:3000/tasks/${taskToSave.id}`, {
               method: "PATCH",
@@ -21,7 +21,7 @@
               body: JSON.stringify({
                 title: taskToSave.title,
                 description: taskToSave.description,
-                dueDate: taskToSave.dueDate
+                dueDate: taskToSave.dueDate,
               }), 
             });
 
@@ -35,11 +35,10 @@
         
         console.log(`✅ Mise à jour réussie en BDD:`, updatedTask);
 
-        // Mettre à jour localement si nécessaire (si `tasks` est un store Svelte)
         } catch (error) {
           console.error(`🚨 Erreur lors de la mise à jour de la tâche:`, error);
         }
-      selectedTask = null; // Ferme la modale
+      selectedTask = null; //close modal
       }
 
   }
