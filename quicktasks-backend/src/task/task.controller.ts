@@ -29,7 +29,6 @@ export class TaskController {
     @Param('id') id: string,
     @Body() data: { status: TaskStatus },
   ) {
-    console.log('📥 Requête reçue :', { id, data });
     return this.taskService.updateTaskStatus(+id, data.status);
   }
 
@@ -38,6 +37,9 @@ export class TaskController {
     @Param('id') id: string,
     @Body() data: { title?: string; description?: string; dueDate?: Date },
   ) {
+    if (typeof data.dueDate === 'string') {
+      data.dueDate = new Date(data.dueDate);
+    }
     return this.taskService.updateTask(+id, data);
   }
 
