@@ -28,7 +28,6 @@
             {handleDrop} 
             {deleteTask}
             on:editTask={(event) => {
-            // Quand on reçoit l’événement "editTask", on ouvre la modale
             console.log("Événement editTask reçu !", event.detail);
             selectedTask = event.detail;
             }}
