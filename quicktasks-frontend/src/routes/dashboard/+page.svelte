@@ -2,7 +2,7 @@
   import '../../app.css';
   import { onMount } from 'svelte';
   import KanbanBoard from '$lib/KanbanBoard.svelte';
-  import type { Status, Task } from '$lib/types';
+  import type {Task, TaskStatus } from '$lib/types';
   
 
 let tasks: Task[] = []; // Tableau local de tâches
@@ -24,47 +24,30 @@ let newTask = '';
   }
 
   
-  async function handleDrop(taskId: number, newStatus: string): Promise<void>{
-    console.log(`🔄 Changement du statut de la tâche ${taskId} en ${newStatus}`);
-
-    // 🔥 Vérification et conversion du statut avant l'envoi
-    const statusMap: Record<string, string> = {
-        "TODO": "TODO",
-        "IN_PROGRESS": "IN_PROGRESS", // Correction ici
-        "DONE": "DONE",
-    };
-
-    const formattedStatus = statusMap[newStatus];
-
-    if (!formattedStatus) {
-        console.error(`🚨 Erreur: statut "${newStatus}" invalide`);
-        return;
-    }
-
+  async function handleDrop(taskId: number, newStatus: TaskStatus): Promise<void>{
     try {
-        const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
+        const response = await fetch(`http://localhost:3000/tasks/${taskId}/status`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ status: formattedStatus }), // On envoie la version correcte du statut
+            body: JSON.stringify({ status: newStatus }), // On envoie la version correcte du statut
         });
+        console.log(response);
 
         if (!response.ok) {
             const errorText = await response.text();
-            throw new Error(`Erreur API: ${errorText}`);
+            throw new Error(`API Error: ${errorText}`);
         }
-
         const updatedTask = await response.json();
-        console.log(`✅ Mise à jour réussie en BDD:`, updatedTask);
+        console.log(updatedTask);
 
-        // Mettre à jour localement si nécessaire (si `tasks` est un store Svelte)
         tasks = tasks.map((task) =>
-            task.id === taskId ? { ...task, status: updatedTask.status } : task
+            task.id === taskId ? { ...task, statusId: updatedTask.statusId } : task
         );
 
     } catch (error) {
-        console.error(`🚨 Erreur lors de la mise à jour de la tâche:`, error);
+        console.error(`Error when uptadting Task`, error);
     }
 
 }
@@ -76,12 +59,12 @@ let newTask = '';
       });
 
       if (!response.ok) {
-        throw new Error('Erreur lors de la suppression de la tâche');
+        throw new Error('Error when deleting task:');
       }
 
       tasks = tasks.filter(t => t.id !== taskId);
     } catch (error) {
-      console.error(`🚨 Impossible de supprimer la tâche :`, error);
+      console.error(`Unable to delete Task`, error);
     }
   }
 

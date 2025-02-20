@@ -1,17 +1,14 @@
 <script lang="ts">
-  import { writable } from 'svelte/store';
-  import { tasks } from '$lib/store'; // Import du store global
   import type { Task } from '$lib/types';
 
   export let selectedTask: Task | null;
-  export let onSave: (task: Task) => void; // Fonction passée en prop
+  export let onSave: (task: Task) => void;
 
   async function saveChanges() {
       
       if (selectedTask) {
         const taskToSave = { ...selectedTask }; //copy to avoid null value of modal 
         onSave(taskToSave);
-        console.log(taskToSave.dueDate)
         try {
           const response = await fetch(`http://localhost:3000/tasks/${taskToSave.id}`, {
               method: "PATCH",

@@ -1,11 +1,19 @@
-// ✅ Type des statuts autorisés
-export type Status = 'TODO' | 'IN_PROGRESS' | 'DONE';
+//export type Status = 'TODO' | 'IN_PROGRESS' | 'DONE';
 
-// ✅ Type des tâches
+
 export type Task = {
   id: number;
   title: string;
   description?: string;
   dueDate?: Date;
-  status: Status;
+  status: TaskStatus;
+  statusId: number;
 };
+
+export type TaskStatus ={
+  id: number;
+  name : string;
+  is_closed: boolean;
+  is_new : boolean;
+  sequence : number;
+}
