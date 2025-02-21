@@ -8,7 +8,13 @@ export class TaskStatusService {
   constructor(private prisma: PrismaService) {}
 
   create(createTaskStatusDto: CreateTaskStatusDto) {
-    return `This action create taskStatus with data: ${JSON.stringify(createTaskStatusDto)}`;
+    return this.prisma.taskStatus.create({
+      data: {
+        name: createTaskStatusDto.name,
+        is_closed: false,
+        is_new: false,
+      },
+    });
   }
 
   getAllStatus() {
@@ -20,10 +26,13 @@ export class TaskStatusService {
   }
 
   update(id: number, updateTaskStatusDto: UpdateTaskStatusDto) {
-    return `This action updates taskStatus #${id} with data: ${JSON.stringify(updateTaskStatusDto)}`;
+    return this.prisma.taskStatus.update({
+      where: { id },
+      data: updateTaskStatusDto,
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} taskStatus`;
+    return this.prisma.taskStatus.delete({ where: { id } });
   }
 }

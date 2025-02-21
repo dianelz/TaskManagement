@@ -16,4 +16,5 @@ export type TaskStatus ={
   is_closed: boolean;
   is_new : boolean;
   sequence : number;
+  isEditing?: boolean;
 }
