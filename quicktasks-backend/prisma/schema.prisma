@@ -21,12 +21,22 @@ model User {
   tasks    Task[]
 }
 
+model TaskStatus{
+  id  Int @id @default(autoincrement())
+  name  String @unique
+  is_closed Boolean 
+  is_new Boolean
+  tasks Task[] @relation("TaskStatusRelation")
+  sequence Int @unique @default(autoincrement())
+}
+
 model Task {
   id        Int      @id @default(autoincrement())
   title     String
   description String?
   completed Boolean  @default(false)
-  status      TaskStatus   @default(TODO) // Statuts : todo, in_progress, done
+  statusId    Int        
+  status      TaskStatus @relation("TaskStatusRelation", fields: [statusId], references: [id])
   dueDate     DateTime? @db.Date
   createdAt   DateTime @default(now())
   updatedAt   DateTime? @updatedAt
@@ -34,9 +44,6 @@ model Task {
   user      User     @relation(fields: [userId], references: [id])
 }
 
-enum TaskStatus {
-  TODO
-  IN_PROGRESS
-  DONE
-}
+
+
 
