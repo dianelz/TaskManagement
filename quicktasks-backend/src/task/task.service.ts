@@ -16,14 +16,24 @@ export class TaskService {
     dueDate?: Date;
     userId: number;
   }) {
+    const defaultStatus = await this.prisma.taskStatus.findFirst({
+      where: { is_new: true },
+      select: { id: true }, // Suppose que ton champ s'appelle "name"
+    });
+
+    if (!defaultStatus) {
+      throw new Error('Aucun statut initial trouvé');
+    }
     return this.prisma.task.create({
       data: {
         title: data.title,
         description: data.description,
         dueDate: data.dueDate,
-        status: 'TODO',
+        status: {
+          connect: { id: defaultStatus.id },
+        },
         user: {
-          connect: { id: data.userId }, // ✅ Liaison via la relation Prisma
+          connect: { id: data.userId },
         },
       },
     });
@@ -39,10 +49,14 @@ export class TaskService {
     });
   }
 
-  async updateTaskStatus(id: number, status: TaskStatus): Promise<Task> {
+  async updateTaskStatus(id: number, data: TaskStatus): Promise<Task> {
     return this.prisma.task.update({
       where: { id },
-      data: { status },
+      data: {
+        status: {
+          connect: { id: data.id },
+        },
+      },
     });
   }
 

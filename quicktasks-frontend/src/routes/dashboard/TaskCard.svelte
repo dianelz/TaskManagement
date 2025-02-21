@@ -7,14 +7,11 @@
     const dispatch = createEventDispatcher();
 
     function editTask() {
-        console.log("CLIC CLIC")
-        console.log(task)
         dispatch('editTask', task);
     }
 
     function deleteTask(event:MouseEvent){
         event.stopPropagation();
-        console.log(task)
         dispatch('deleteTask',task.id)
     }
     
@@ -36,7 +33,7 @@
   <span
     class="absolute top-2 right-2 text-xl text-red-400 hover:text-red-600 cursor-pointer"
     on:click={(event) => {
-      event.stopPropagation(); // Évite d'appeler aussi editTask()
+      event.stopPropagation(); 
       deleteTask(event);
     }}
   >

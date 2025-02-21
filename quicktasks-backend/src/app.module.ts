@@ -5,9 +5,10 @@ import { TaskModule } from './task/task.module';
 import { UserModule } from './user/user.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
+import { TaskStatusModule } from './task-status/task-status.module';
 
 @Module({
-  imports: [TaskModule, UserModule, PrismaModule, AuthModule],
+  imports: [TaskModule, UserModule, PrismaModule, AuthModule, TaskStatusModule],
   controllers: [AppController],
   providers: [AppService],
 })
