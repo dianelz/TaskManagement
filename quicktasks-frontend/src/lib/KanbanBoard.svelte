@@ -93,23 +93,29 @@
     onMount(fetchStatus);
   </script>
   
-  <!-- Kanban Board -->
-  <div class="kanban-board grid grid-cols-3 gap-4 p-4">
-    {#each statuses as status (status.id)}
-      <TaskColumn
-        {status}
-        tasks={tasks.filter((task: Task) => task.statusId === status.id)}
-        {handleDrop}
-        {deleteTask}
-        {deleteColumn}
-        {updateColumn}
-        on:addColumn={addColumn}
-        on:editTask={(event) => {
-          selectedTask = event.detail;
-        }}
-        bind:isEditing={status.isEditing}
-      />
-    {/each}
+  <div class="bg-gray-100 w-full min-h-screen p-4">
+
+    <div class="kanban-board flex flex-nowrap space-x-4 overflow-x-auto">
+      {#each statuses as status (status.id)}
+        <!-- Optionnel : wrapper pour forcer une largeur fixe à chaque colonne -->
+        <div class="w-64 flex-shrink-0">
+          <TaskColumn
+            {status}
+            tasks={tasks.filter((task: Task) => task.statusId === status.id)}
+            {handleDrop}
+            {deleteTask}
+            {deleteColumn}
+            {updateColumn}
+            on:addColumn={addColumn}
+            on:editTask={(event) => {
+              selectedTask = event.detail;
+            }}
+            bind:isEditing={status.isEditing}
+          />
+        </div>
+      {/each}
+    </div>
+  
   </div>
   
   <!-- Modale pour l'édition d'une tâche -->
