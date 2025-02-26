@@ -2,6 +2,9 @@
     import { onMount } from "svelte";
     import type { Task } from "$lib/types";
     import TaskCalendar from "./TaskCalendar.svelte";
+	import { user } from "../../stores/auth";
+    import { get } from "svelte/store";
+
 
     let tasks: Task[] = [];
 
@@ -43,6 +46,8 @@
     }
 </script>
 
+{#if get(user)}
 <TaskCalendar {tasks} 
 on:addTask={e => addTask(e.detail)}
 on:updateTask={e => updateTask(e.detail.id, e.detail.newDate)}/>
+{/if}

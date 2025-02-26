@@ -28,21 +28,21 @@
 
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem('token', data.token); // ✅ Stockage du JWT
+        localStorage.setItem('token', data.token); 
         window.location.href = '/dashboard';
       } else {
         const data = await response.json();
-        errorMessage = data.message || 'Erreur lors de la connexion.';
+        errorMessage = data.message || 'Error during login.';
       }
     } catch (error) {
-      errorMessage = 'Erreur réseau.';
+      errorMessage = 'Error during login.';
     }
   }
   </script>
 
   <div class="min-h-screen flex items-center justify-center bg-gray-100">
     <div class="bg-white p-8 rounded shadow-md w-96">
-      <h1 class="text-2xl font-bold mb-4 text-center">Connexion</h1>
+      <h1 class="text-2xl font-bold mb-4 text-center">Login</h1>
       <input
         type="email"
         bind:value={email}
@@ -66,6 +66,6 @@
         <p class="text-red-500 text-sm mt-2">{errorMessage}</p>
       {/if}
 
-      <a href="/register" class="text-blue-500 text-sm block text-center mt-4">Sign in</a>
+      <a href="/register" class="text-blue-500 text-sm block text-center mt-4">Sign up</a>
     </div>
   </div>
