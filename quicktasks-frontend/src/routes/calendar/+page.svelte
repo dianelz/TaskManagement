@@ -45,9 +45,8 @@
         );
     }
 </script>
-
-{#if get(user)}
-<TaskCalendar {tasks} 
-on:addTask={e => addTask(e.detail)}
-on:updateTask={e => updateTask(e.detail.id, e.detail.newDate)}/>
+{#if user}
+	<TaskCalendar {tasks} 
+	on:addTask={e => addTask(e.detail)}
+	on:updateTask={e => updateTask(e.detail.id, e.detail.newDate)}/>
 {/if}

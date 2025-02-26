@@ -127,24 +127,23 @@
     fetchTasks();
   });
 </script>
+  {#if user}
+    <h1 class="text-3xl font-bold text-center my-4">Task Manager</h1>
 
-{#if get(user)}
-  <h1 class="text-3xl font-bold text-center my-4">Task Manager</h1>
+    <div class="flex justify-center mb-4">
+      <input
+        type="text"
+        bind:value={newTask}
+        placeholder="New Task"
+        class="border p-2 rounded-l-md"
+      />
+      <button
+        on:click={addTask}
+        class="bg-blue-500 text-white px-4 py-2 rounded-r-md"
+      >
+        Add
+      </button>
+    </div>
 
-  <div class="flex justify-center mb-4">
-    <input
-      type="text"
-      bind:value={newTask}
-      placeholder="New Task"
-      class="border p-2 rounded-l-md"
-    />
-    <button
-      on:click={addTask}
-      class="bg-blue-500 text-white px-4 py-2 rounded-r-md"
-    >
-      Add
-    </button>
-  </div>
-
-  <KanbanBoard {tasks} {handleDrop} {deleteTask} />
-{/if}
+    <KanbanBoard {tasks} {handleDrop} {deleteTask} />
+  {/if}
