@@ -28,7 +28,7 @@ export class TaskService {
       data: {
         title: data.title,
         description: data.description,
-        dueDate: data.dueDate,
+        dueDate: data.dueDate ? new Date(data.dueDate) : undefined,
         status: {
           connect: { id: defaultStatus.id },
         },

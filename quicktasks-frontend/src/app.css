@@ -2,9 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+
 .test {
     display: flex;
-    position : relative;
+    position: relative;
     flex-direction: column;
     gap: 1em;
     height: 100%;
@@ -40,6 +41,112 @@
 
 .task {
     width: 100%;
-    /* éventuellement pour l’affichage en bloc */
     display: block;
-  }
+}
+
+
+.fc {
+    width: 100%;
+}
+
+:global(* > *) {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    
+}
+.demo-app {
+    width: 100vw;
+    height: 100vh;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
+}
+.demo-app-top {
+    padding: 1rem;
+    text-align: center;
+}
+.demo-app-calendar {
+    width: 100%;
+    flex-grow: 1;
+    margin: 0 auto;
+    max-width: 900px;
+}
+:global(.draggable) {
+    color: white;
+    background: #3788d8;
+    width: fit-content;
+    padding: 1rem;
+    margin: 1rem;
+    cursor: pointer;
+}
+
+:global(.fc-daygrid-day) {
+    background-color: #f8f9fa; 
+    border-radius: 10px; 
+    padding: 5px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Conteneur principal */
+.demo-app-calendar {
+    width: 100%;
+    flex-grow: 1;
+    margin: 0 auto;
+    max-width: 900px;
+    overflow: hidden;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+:global(.fc-view-harness) {
+    border-radius: 15px; /* Arrondi uniquement sur la grille */
+    overflow: hidden;
+}
+
+:global(.fc-toolbar) {
+    background-color: #ffffff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 0; /* Annule l’arrondi */
+}
+
+:global(.fc-daygrid-day) {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 5px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+:global(.fc-daygrid-day:hover) {
+    background-color: #e9ecef;
+    cursor: pointer;
+}
+
+:global(.fc-event) {
+    background-color: #3788d8 !important;
+    color: white !important;
+    border-radius: 8px;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+:global(.fc-daygrid-event) {
+    margin: 3px 0;
+}
+
+:global(.fc-button) {
+    background-color: #007bff !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 5px 10px !important;
+    font-size: 14px !important;
+    font-weight: bold;
+}
+
+:global(.fc-button:hover) {
+    background-color: #0056b3 !important;
+}
