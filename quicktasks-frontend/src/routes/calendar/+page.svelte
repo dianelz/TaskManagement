@@ -20,8 +20,6 @@
 
     async function addTask(date: Date) {
 		try {
-			console.log("dans addTask");
-			console.log("Date :", date);
 			const response = await fetch(`http://localhost:3000/tasks`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
@@ -45,7 +43,6 @@
     }
 </script>
 
-<h1>Calendrier des Tâches</h1>
 <TaskCalendar {tasks} 
 on:addTask={e => addTask(e.detail)}
 on:updateTask={e => updateTask(e.detail.id, e.detail.newDate)}/>

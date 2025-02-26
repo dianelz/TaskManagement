@@ -31,7 +31,7 @@
 >
   <!-- svelte-ignore a11y_click_events_have_key_events -->
   <span
-    class="absolute top-2 right-2 text-xl text-red-400 hover:text-red-600 cursor-pointer"
+    class="absolute top-2 right-2 text-xl text-pink-600 hover:text-pink-800 cursor-pointer"
     on:click={(event) => {
       event.stopPropagation(); 
       deleteTask(event);
@@ -45,8 +45,7 @@
     <p class="text-gray-600">{task.description}</p>
   {/if}
   {#if task.dueDate}
-    <p class="text-sm text-red-500">Échéance : {new Date(task.dueDate).toLocaleDateString()}</p>
+    <p class="text-sm text-pink-600"> {new Date(task.dueDate).toLocaleDateString()}</p>
   {/if}
 </div>
-
 

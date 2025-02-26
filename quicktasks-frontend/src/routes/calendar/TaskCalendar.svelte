@@ -6,6 +6,7 @@
 	import type { Task } from '$lib/types';
     import "../../app.css";
     import { createEventDispatcher } from 'svelte';
+    import Layout from "../Layout.svelte";
 
 	// On attend que le parent nous passe un tableau de tâches
 	export let tasks: Task[] = [];
@@ -39,29 +40,13 @@
 		weekends: true,
 	};
 
-	function toggleWeekends() {
-		// Par exemple, on pourrait vouloir basculer l'affichage des week-ends.
-		options = { ...options, weekends: !options.weekends };
-	}
-
-	function gotoPast() {
-		let calendarApi = calendarComponentRef?.getAPI();
-		calendarApi.gotoDate('2000-01-01');
-	}
 </script>
 
-<svelte:head>
-	<title>Calendrier des Tâches</title>
-</svelte:head>
-
-<div class="demo-app">
-	<div class="demo-app-top">
-		&nbsp;(Cliquez sur une date pour ajouter une tâche)
-	</div>
-
-	<div class="demo-app-calendar">
-		<FullCalendar bind:this={calendarComponentRef} {options} />
-	</div>
-</div>
-
+<Layout>
+    <div class="demo-app">
+        <div class="demo-app-calendar">
+            <FullCalendar bind:this={calendarComponentRef} {options} />
+        </div>
+    </div>
+</Layout>
 

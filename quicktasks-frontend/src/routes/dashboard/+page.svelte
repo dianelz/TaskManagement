@@ -81,7 +81,7 @@
   });
 </script>
 
-<h1 class="text-3xl font-bold text-center my-4">QuickTasks - Kanban Board</h1>
+<h1 class="text-3xl font-bold text-center my-4">Task Manager</h1>
 
 <div class="flex justify-center mb-4">
   <input
@@ -100,12 +100,3 @@
 
 <KanbanBoard {tasks} {handleDrop} {deleteTask} />
 
-<button
-  on:click={() => {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
-  }}
-  class="fixed bottom-4 right-4 bg-red-500 text-white px-4 py-2 rounded"
->
-  Logout
-</button>
