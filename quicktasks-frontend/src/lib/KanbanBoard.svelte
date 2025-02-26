@@ -3,6 +3,8 @@
     import TaskModal from "../routes/dashboard/TaskModal.svelte";
     import type { Task, TaskStatus } from "$lib/types";
     import { onMount } from "svelte";
+    import Layout from "../routes/Layout.svelte";
+
   
     export let tasks: Task[];
     export let handleDrop: (taskId: number, newStatus: TaskStatus) => Promise<void>;
@@ -93,8 +95,8 @@
     onMount(fetchStatus);
   </script>
   
+  <Layout>
   <div class="bg-gray-100 w-full min-h-screen p-4">
-
     <div class="kanban-board flex flex-nowrap space-x-4 overflow-x-auto">
       {#each statuses as status (status.id)}
         <!-- Optionnel : wrapper pour forcer une largeur fixe à chaque colonne -->
@@ -115,8 +117,9 @@
         </div>
       {/each}
     </div>
-  
   </div>
+</Layout>
+
   
   <!-- Modale pour l'édition d'une tâche -->
   <TaskModal bind:selectedTask onSave={updateTask} />

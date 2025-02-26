@@ -43,9 +43,9 @@
     class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center"
   >
     <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-      <h2 class="text-xl font-bold mb-4">Modifier la tâche</h2>
+      <h2 class="text-xl font-bold mb-4">Edit</h2>
 
-      <label class="block mb-2">Titre</label>
+      <label class="block mb-2">Title</label>
       <input
         type="text"
         bind:value={selectedTask.title}
@@ -58,7 +58,7 @@
         class="border p-2 w-full mb-4"
       ></textarea>
 
-      <label class="block mb-2">Échéance</label>
+      <label class="block mb-2">Due Date</label>
       <input
         type="date"
         bind:value={selectedTask.dueDate}
@@ -68,11 +68,11 @@
       <div class="flex justify-end">
         <button
           on:click={() => (selectedTask = null)}
-          class="mr-2 px-4 py-2 bg-gray-300 rounded">Annuler</button
+          class="mr-2 px-4 py-2 bg-gray-300 rounded">Cancel</button
         >
         <button
           on:click={saveChanges}
-          class="px-4 py-2 bg-blue-500 text-white rounded">Enregistrer</button
+          class="px-4 py-2 bg-blue-500 text-white rounded">Save</button
         >
       </div>
     </div>
